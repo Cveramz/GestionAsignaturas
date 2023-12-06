@@ -6,30 +6,26 @@ import jakarta.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Notas")
+@Table(name = "notas")
 public class Nota {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Nota")
+    @Column(name = "id_nota")
     private Long idNota;
 
-    @Column(name = "Anio")
+    @Column(name = "anio")
     private int anio;
 
-    @Column(name = "Sem")
+    @Column(name = "sem")
     private int sem;
 
-    @Column(name = "Nota")
+    @Column(name = "nota")
     private double nota;
 
-    @ManyToOne
-    @JoinColumn(name = "Rut", nullable = false)
-    private Estudiante estudiante;
+    @Column(name = "rut")
+    private String rutEstudiante;
 
-    @ManyToOne
-    @JoinColumn(name = "Cod_Asig", nullable = false)
-    private Asignatura asignatura;
+    @Column(name = "cod_asig")
+    private int codAsignatura;
 
-    // Otros campos y relaciones según tu modelo
 }

@@ -3,24 +3,17 @@ package com.example.demo.model;
 import lombok.Data;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
-@Table(name = "Carreras")
+@Table(name = "carreras")
 public class Carrera {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Cod_Carr")
-    private Long codCarr;
+    @Column(name = "cod_carr")
+    private int codCarr;
 
-    @Column(name = "Nombre_Carrera")
+    @Column(name = "nombre_carrera")
     private String nombreCarrera;
-
-    @OneToMany(mappedBy = "carrera")
-    private List<Asignatura> asignaturas;
-
-    @OneToMany(mappedBy = "carrera")
-    private List<Estudiante> estudiantes;
 }

@@ -6,30 +6,26 @@ import jakarta.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Asignaturas")
+@Table(name = "asignaturas")
 public class Asignatura {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Cod_Asig")
-    private Long codAsig;
+    @Column(name = "cod_asig")
+    private int codAsig;
 
-    @Column(name = "Cod_Plan")
+    @Column(name = "cod_plan")
     private String codPlan;
 
-    @Column(name = "Nivel")
+    @Column(name = "nivel")
     private int nivel;
 
-    @Column(name = "Nom_Asig")
+    @Column(name = "nom_asig")
     private String nomAsig;
 
-    @Column(name = "Limite_Estudiantes")
+    @Column(name = "limite_estudiantes")
     private int limiteEstudiantes;
 
-    @Column(name = "Cont_Estudiantes")
-    private int contEstudiantes;
+    @Column(name = "cod_carr")
+    private int codCarr;
 
-    @ManyToOne
-    @JoinColumn(name = "Cod_Carr", nullable = false)
-    private Carrera carrera;
 }

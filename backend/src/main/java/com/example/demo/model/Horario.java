@@ -6,23 +6,20 @@ import jakarta.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Horarios")
+@Table(name = "horarios")
 public class Horario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Horario")
+    @Column(name = "id_horario")
     private Long idHorario;
 
-    @Column(name = "Dia_Semana")
+    @Column(name = "dia_semana")
     private String diaSemana;
 
-    @Column(name = "Bloque")
+    @Column(name = "bloque")
     private String bloque;
 
-    @ManyToOne
-    @JoinColumn(name = "Cod_Asig", nullable = false)
-    private Asignatura asignatura;
-
-    // Otros campos y relaciones según tu modelo
+    @Column(name = "cod_asig")
+    private String codAsignatura;
 }

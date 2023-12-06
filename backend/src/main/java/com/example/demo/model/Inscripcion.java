@@ -3,28 +3,26 @@ package com.example.demo.model;
 import lombok.Data;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "Inscripciones")
+@Table(name = "inscripciones")
 public class Inscripcion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Inscripcion")
+    @Column(name = "id_inscripcion")
     private Long idInscripcion;
 
-    @Column(name = "Fecha_Inscripcion")
-    private LocalDate fechaInscripcion;
+    @Column(name = "fecha_inscripcion")
+    private Date fechaInscripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "Rut", nullable = false)
-    private Estudiante estudiante;
+    @Column(name = "rut")
+    private String rutEstudiante;
 
-    @ManyToOne
-    @JoinColumn(name = "Cod_Asig", nullable = false)
-    private Asignatura asignatura;
+    @Column(name = "cod_asig")
+    private String codAsignatura;
 
-    // Otros campos y relaciones según tu modelo
+
 }

@@ -3,32 +3,29 @@ package com.example.demo.model;
 import lombok.Data;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
-@Table(name = "Estudiantes")
+@Table(name = "estudiantes")
 public class Estudiante {
 
     @Id
-    @Column(name = "Rut")
+    @Column(name = "rut")
     private String rut;
 
-    @Column(name = "Nombres")
+    @Column(name = "nombres")
     private String nombres;
 
-    @Column(name = "Apellidos")
+    @Column(name = "apellidos")
     private String apellidos;
 
-    @Column(name = "Email")
+    @Column(name = "email")
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "Cod_Carr", nullable = false)
-    private Carrera carrera;
+    @Column(name = "nivel")
+    private int nivel;
 
-    @OneToMany(mappedBy = "estudiante")
-    private List<Nota> notas;
+    @Column(name = "cod_carr")
+    private int codCarr;
 
-    // Otros campos y relaciones según tu modelo
 }

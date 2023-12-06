@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/asignaturas")
+@CrossOrigin(origins = "*")
 public class AsignaturaController {
 
     private final AsignaturaService asignaturaService;
@@ -19,11 +20,14 @@ public class AsignaturaController {
     }
 
     @GetMapping
+    @ResponseBody
+
     public List<Asignatura> getAllAsignaturas() {
         return asignaturaService.getAllAsignaturas();
     }
 
     @GetMapping("/{id}")
+    @ResponseBody
     public Asignatura getAsignaturaById(@PathVariable Long id) {
         return asignaturaService.getAsignaturaById(id).orElse(null);
     }
