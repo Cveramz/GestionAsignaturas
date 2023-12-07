@@ -21,7 +21,7 @@ const GestionarAsignaturas = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/asignaturas');
+        const response = await axios.get('http://192.168.100.120:8080/asignaturas');
         setAsignaturas(response.data);
         setLoadedSuccessfully(true);
       } catch (error) {
@@ -36,11 +36,11 @@ const GestionarAsignaturas = () => {
   }, []);
 
   const handleAsignaturaClick = (asignatura) => {
-    setError(null); // Establecer error en null para ocultar el Alert
+    setError(null); 
     setSelectedAsignatura(asignatura);
   };
 
-  // Renderizado condicional para mostrar el componente adecuado
+  
   if (selectedAsignatura) {
     return <OpcionesAsignaturas asignatura={selectedAsignatura} />;
   }

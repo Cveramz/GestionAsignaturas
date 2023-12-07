@@ -5,10 +5,9 @@ import Inicio from './components/Inicio';
 import GestionarAsignaturas from './components/gestionarasignaturas';
 import InscripcionCursos from './components/InscripcionCursos';
 import MallaEstudiante from './components/MallaEstudiante';
-import OpcionesAsignaturas from './components/OpcionesAsignaturas';
+import AdminsitrarHorario from './components/AdministrarHorario';
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <BrowserRouter>
@@ -21,6 +20,7 @@ function App() {
             <Route path="/GestionarAsignaturas" element={<GestionarAsignaturas />} />
             <Route path="/InscripcionCursos" element={<InscripcionCursos />} />
             <Route path="/MallaEstudiante" element={<MallaEstudiante />} />
+            <Route path="/AdministrarHorario/:id" element={<AdminsitrarHorario />} />
             
           </Routes>
         </div>
