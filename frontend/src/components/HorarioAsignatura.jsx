@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Grid, Paper, Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Button, Snackbar } from '@mui/material';
+import { Grid, Paper, Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Button } from '@mui/material';
 
-function AdministrarHorario() {
+function HorarioAsignatura() {
     const { id } = useParams();
     const [nombreAsignatura, setNombreAsignatura] = useState('');
-    const [botonesSeleccionados, setBotonesSeleccionados] = useState([]);
-    const [datosGuardados, setDatosGuardados] = useState([]);
-    const [mensajeSnackbar, setMensajeSnackbar] = useState('');
+    const [horarioBloques, setHorarioBloques] = useState([]);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/asignaturas/${id}`)
@@ -17,6 +15,15 @@ function AdministrarHorario() {
             })
             .catch(error => {
                 console.error('Hubo un error!', error);
+            });
+
+        // Obtener bloques del backend y guardarlos en el estado
+        axios.get(`http://localhost:8080/horarios/asignatura/${id}`)
+            .then(response => {
+                setHorarioBloques(response.data.map(item => item.bloque));
+            })
+            .catch(error => {
+                console.error('Hubo un error al obtener los bloques del horario:', error);
             });
     }, [id]);
 
@@ -36,83 +43,21 @@ function AdministrarHorario() {
         { horario: '21:25 - 22:45', modulos: ['L9', 'M9', 'W9', 'J9', 'V9', 'S9'] },
     ];
 
-    const handleClick = (modulo) => {
-        if (botonesSeleccionados.includes(modulo)) {
-            // Si el botón ya está seleccionado, lo deseleccionamos
-            setBotonesSeleccionados(botonesSeleccionados.filter(item => item !== modulo));
-        } else {
-            // Si el botón no está seleccionado, lo agregamos a la lista
-            setBotonesSeleccionados([...botonesSeleccionados, modulo]);
-        }
+    const isBloqueColoreado = (bloque) => {
+        return horarioBloques.includes(bloque);
     };
-
-    const mostrarSnackbar = (mensaje) => {
-        setMensajeSnackbar(mensaje);
-    };
-
-    const cerrarSnackbar = () => {
-        setMensajeSnackbar('');
-    };
-
-    const actualizarHorario = async () => {
-        const bloquesSeleccionados = botonesSeleccionados.filter(modulo => modulo !== '-');
-    
-        if (bloquesSeleccionados.length !== 3) {
-            mostrarSnackbar('Debe elegir exactamente 3 bloques.');
-            return;
-        }
-    
-        try {
-            // Eliminar horarios existentes de la asignatura
-            await axios.delete(`http://localhost:8080/horarios/asignatura/${id}`);
-    
-            // Enviar nuevos datos al backend
-            for (const bloqueSeleccionado of bloquesSeleccionados) {
-                const data = {
-                    bloque: bloqueSeleccionado,
-                    codAsignatura: id
-                };
-    
-                await axios.post('http://localhost:8080/horarios', data);
-            }
-    
-            console.log('Horarios existentes eliminados y nuevos datos guardados enviados al backend:', bloquesSeleccionados);
-            mostrarSnackbar('Horarios existentes eliminados y nuevos datos guardados enviados al backend correctamente');
-            {/*Esperar 2 segundos y volver a la ruta /GestionarAsignaturas */}
-            setTimeout(() => {
-                window.location.href = '/GestionarAsignaturas';
-            }, 1000);
-
-        } catch (error) {
-            console.error('Error al enviar datos al backend:', error);
-            mostrarSnackbar('Hubo un error al enviar los datos al backend');
-        }
-    };
-    
 
     return (
         <div>
             <br />
-            <Button variant="outlined" style={{ backgroundColor: 'red', color: 'white', width: '100%' }} onClick={() => window.history.back()}>
-                Volver
-            </Button>
-            <br />
-            <Typography variant="h4">Administrar Horario</Typography>
+            <Typography variant="h4">Visualizar Horario</Typography>
             <hr />
             <Typography variant="h5">Asignatura seleccionada: {nombreAsignatura}</Typography>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Button variant="contained" style={{ backgroundColor: '#ea7600' }} onClick={actualizarHorario}>
-                        Actualizar Horario
-                    </Button>
-                </Grid>
-            </Grid>
-            <Snackbar
-                open={mensajeSnackbar !== ''}
-                autoHideDuration={3000}
-                onClose={cerrarSnackbar}
-                message={mensajeSnackbar}
-            />
+            <Link to="/GestionarAsignaturas">
+            <Button variant="outlined" style={{ backgroundColor: 'red', color: 'white', width: '100%' }} >
+                    Volver
+                </Button>
+            </Link>
             <br />
 
             <Grid container spacing={2}>
@@ -137,10 +82,10 @@ function AdministrarHorario() {
                                                     {modulo !== '-' && (
                                                         <Button
                                                             variant="contained"
-                                                            color={botonesSeleccionados.includes(modulo) ? 'success' : 'primary'}
-                                                            style={{ backgroundColor: botonesSeleccionados.includes(modulo) ? '#00a499' : '#3f51b5', margin: '4px' }}
+                                                            color="primary"
                                                             fullWidth
-                                                            onClick={() => handleClick(modulo)}
+                                                            style={{ backgroundColor: isBloqueColoreado(modulo) ? 'green' : 'white' }}
+                                                            disabled
                                                         >
                                                             {modulo}
                                                         </Button>
@@ -159,4 +104,4 @@ function AdministrarHorario() {
     );
 }
 
-export default AdministrarHorario;
+export default HorarioAsignatura;

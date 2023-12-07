@@ -6,6 +6,7 @@ import GestionarAsignaturas from './components/gestionarasignaturas';
 import InscripcionCursos from './components/InscripcionCursos';
 import MallaEstudiante from './components/MallaEstudiante';
 import AdminsitrarHorario from './components/AdministrarHorario';
+import HorarioAsignatura from './components/HorarioAsignatura';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/InscripcionCursos" element={<InscripcionCursos />} />
             <Route path="/MallaEstudiante" element={<MallaEstudiante />} />
             <Route path="/AdministrarHorario/:id" element={<AdminsitrarHorario />} />
+            <Route path="/HorarioAsignatura/:id" element={<HorarioAsignatura />} />
             
           </Routes>
         </div>

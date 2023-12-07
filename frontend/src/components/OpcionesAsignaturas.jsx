@@ -79,7 +79,7 @@ const OpcionesAsignaturas = ({ asignatura }) => {
                                 <Button
                                     variant="contained"
                                     style={{ backgroundColor: '#00A499', color: 'white', marginRight: '10px' }}
-                                    onClick={() => console.log('Agregar Nuevo Horario')}
+                                    onClick={() => navigate(`/HorarioAsignatura/${detalleAsignatura.codAsig}`)}
                                 >
                                     Ver Horarios
                                 </Button>
