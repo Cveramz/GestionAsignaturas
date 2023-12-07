@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Horario;
 import com.example.demo.repository.HorarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,14 @@ public class HorarioService {
 
     public void deleteHorario(Long id) {
         horarioRepository.deleteById(id);
+    }
+
+    public List<Horario> getHorariosByAsignatura(String codAsignatura) {
+        return horarioRepository.findByCodAsignatura(codAsignatura);
+    }
+
+    @Transactional
+    public void deleteHorariosByAsignatura(String codAsignatura) {
+        horarioRepository.deleteByCodAsignatura(codAsignatura);
     }
 }

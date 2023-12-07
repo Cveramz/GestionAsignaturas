@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/horarios")
 public class HorarioController {
 
@@ -36,5 +37,15 @@ public class HorarioController {
     @DeleteMapping("/{id}")
     public void deleteHorario(@PathVariable Long id) {
         horarioService.deleteHorario(id);
+    }
+
+    @GetMapping("/asignatura/{codAsignatura}")
+    public List<Horario> getHorariosByAsignatura(@PathVariable String codAsignatura) {
+        return horarioService.getHorariosByAsignatura(codAsignatura);
+    }
+
+    @DeleteMapping("/asignatura/{codAsignatura}")
+    public void deleteHorariosByAsignatura(@PathVariable String codAsignatura) {
+        horarioService.deleteHorariosByAsignatura(codAsignatura);
     }
 }

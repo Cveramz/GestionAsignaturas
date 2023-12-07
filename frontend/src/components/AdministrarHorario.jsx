@@ -54,40 +54,51 @@ function AdministrarHorario() {
         setMensajeSnackbar('');
     };
 
-    const guardarDatos = () => {
-        if (botonesSeleccionados.length !== 3) {
+    const actualizarHorario = async () => {
+        const bloquesSeleccionados = botonesSeleccionados.filter(modulo => modulo !== '-');
+    
+        if (bloquesSeleccionados.length !== 3) {
             mostrarSnackbar('Debe elegir exactamente 3 bloques.');
             return;
         }
-
-        setDatosGuardados(botonesSeleccionados);
-        setBotonesSeleccionados([]);
-        mostrarSnackbar('Datos guardados correctamente');
-    };
-
-    const mostrarDatosGuardados = () => {
-        if (datosGuardados.length === 0) {
-            mostrarSnackbar('Primero debe seleccionar y guardar los datos.');
-            return;
+    
+        try {
+            // Eliminar horarios existentes de la asignatura
+            await axios.delete(`http://localhost:8080/horarios/asignatura/${id}`);
+    
+            // Enviar nuevos datos al backend
+            for (const bloqueSeleccionado of bloquesSeleccionados) {
+                const data = {
+                    bloque: bloqueSeleccionado,
+                    codAsignatura: id
+                };
+    
+                await axios.post('http://localhost:8080/horarios', data);
+            }
+    
+            console.log('Horarios existentes eliminados y nuevos datos guardados enviados al backend:', bloquesSeleccionados);
+            mostrarSnackbar('Horarios existentes eliminados y nuevos datos guardados enviados al backend correctamente');
+        } catch (error) {
+            console.error('Error al enviar datos al backend:', error);
+            mostrarSnackbar('Hubo un error al enviar los datos al backend');
         }
-
-        console.log('Datos guardados:', datosGuardados);
-        mostrarSnackbar('Datos guardados: ' + datosGuardados);
     };
+    
 
     return (
         <div>
+            <br />
+            <Button variant="outlined" style={{ backgroundColor: 'red', color: 'white', width: '100%' }} onClick={() => window.history.back()}>
+                Volver
+            </Button>
             <br />
             <Typography variant="h4">Administrar Horario</Typography>
             <hr />
             <Typography variant="h5">Asignatura seleccionada: {nombreAsignatura}</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Button variant="contained" style={{ backgroundColor: '#00a499', marginRight: '8px' }} onClick={guardarDatos}>
-                        Guardar Datos
-                    </Button>
-                    <Button variant="contained" style={{ backgroundColor: '#ea7600' }} onClick={mostrarDatosGuardados}>
-                        Mostrar Datos Guardados
+                    <Button variant="contained" style={{ backgroundColor: '#ea7600' }} onClick={actualizarHorario}>
+                        Actualizar Horario
                     </Button>
                 </Grid>
             </Grid>

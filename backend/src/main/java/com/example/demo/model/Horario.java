@@ -14,8 +14,6 @@ public class Horario {
     @Column(name = "id_horario")
     private Long idHorario;
 
-    @Column(name = "dia_semana")
-    private String diaSemana;
 
     @Column(name = "bloque")
     private String bloque;
