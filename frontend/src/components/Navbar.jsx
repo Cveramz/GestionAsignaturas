@@ -51,11 +51,8 @@ const Navbar = () => {
             <Link to="/GestionarAsignaturas" style={{ textDecoration: 'none', color: 'inherit' }}>
               <CustomButton>Gestionar Asignaturas</CustomButton>
             </Link>
-            <Link to="/InscripcionCursos" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <CustomButton>Inscripción Cursos</CustomButton>
-            </Link>
-            <Link to="/MallaEstudiante" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <CustomButton>Malla Estudiante</CustomButton>
+            <Link to="/GestionarEstudiantes" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <CustomButton>Gestionar Estudiantes</CustomButton>
             </Link>
           </Hidden>
         </Toolbar>
@@ -78,14 +75,9 @@ const Navbar = () => {
               Gestionar Asignaturas
             </Button>
           </Link>
-          <Link to="/InscripcionCursos" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to="/GestionarEstudiantes" style={{ textDecoration: 'none', color: 'inherit' }}>
             <Button onClick={handleDrawerClose} fullWidth>
-              Inscripción Cursos
-            </Button>
-          </Link>
-          <Link to="/MallaEstudiante" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Button onClick={handleDrawerClose} fullWidth>
-              Malla Estudiante
+              Gestionar Estudiantes
             </Button>
           </Link>
         </List>

@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/navbar';
 import Inicio from './components/Inicio';
-import GestionarAsignaturas from './components/gestionarasignaturas';
-import InscripcionCursos from './components/InscripcionCursos';
-import MallaEstudiante from './components/MallaEstudiante';
+import GestionarAsignaturas from './components/GestionarAsignaturas';
+import GestionarEstudiantes from './components/GestionarEstudiantes';
 import AdminsitrarHorario from './components/AdministrarHorario';
-import HorarioAsignatura from './components/HorarioAsignatura';
+import HorarioAsignatura from './components/HorarioAsignaturas';
 
 function App() {
 
@@ -19,8 +18,7 @@ function App() {
             <Route path="/" element={<Inicio />} />
             <Route path="/inicio" element={<Inicio />} />
             <Route path="/GestionarAsignaturas" element={<GestionarAsignaturas />} />
-            <Route path="/InscripcionCursos" element={<InscripcionCursos />} />
-            <Route path="/MallaEstudiante" element={<MallaEstudiante />} />
+            <Route path="/GestionarEstudiantes" element={<GestionarEstudiantes />} />
             <Route path="/AdministrarHorario/:id" element={<AdminsitrarHorario />} />
             <Route path="/HorarioAsignatura/:id" element={<HorarioAsignatura />} />
             

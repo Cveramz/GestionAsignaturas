@@ -15,8 +15,8 @@ public class Inscripcion {
     @Column(name = "id_inscripcion")
     private Long idInscripcion;
 
-    @Column(name = "fecha_inscripcion")
-    private Date fechaInscripcion;
+    @Column(name = "estado")
+    private String estado;
 
     @Column(name = "rut")
     private String rutEstudiante;

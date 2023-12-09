@@ -13,7 +13,7 @@ const OpcionesAsignaturas = ({ asignatura }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://192.168.100.120:8080/asignaturas/${asignatura.codAsig}`);
+                const response = await axios.get(`http://localhost:8080/asignaturas/${asignatura.codAsig}`);
                 setDetalleAsignatura(response.data);
             } catch (error) {
                 console.error('Error al obtener detalles de la asignatura', error);

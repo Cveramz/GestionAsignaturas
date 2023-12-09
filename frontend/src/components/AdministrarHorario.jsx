@@ -20,7 +20,7 @@ function AdministrarHorario() {
             });
     }, [id]);
 
-    const dias = ['L', 'M', 'W', 'J', 'V', 'S'];
+    const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
     const horarios = [
         { horario: '08:15 - 09:35', modulos: ['L1', 'M1', 'W1', 'J1', 'V1', 'S1'] },
@@ -78,7 +78,7 @@ function AdministrarHorario() {
     
             console.log('Horarios existentes eliminados y nuevos datos guardados enviados al backend:', bloquesSeleccionados);
             mostrarSnackbar('Horarios existentes eliminados y nuevos datos guardados enviados al backend correctamente');
-            {/*Esperar 2 segundos y volver a la ruta /GestionarAsignaturas */}
+            
             setTimeout(() => {
                 window.location.href = '/GestionarAsignaturas';
             }, 1000);

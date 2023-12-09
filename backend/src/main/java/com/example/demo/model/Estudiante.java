@@ -22,8 +22,6 @@ public class Estudiante {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "nivel")
-    private int nivel;
 
     @Column(name = "cod_carr")
     private int codCarr;

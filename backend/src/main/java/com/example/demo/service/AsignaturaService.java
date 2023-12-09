@@ -33,4 +33,8 @@ public class AsignaturaService {
     public void deleteAsignatura(Long id) {
         asignaturaRepository.deleteById(id);
     }
+
+    public List<Asignatura> getAsignaturasByCodCarr(int codCarr) {
+        return asignaturaRepository.findByCodCarr(codCarr);
+    }
 }

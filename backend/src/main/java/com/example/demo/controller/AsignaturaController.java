@@ -41,4 +41,10 @@ public class AsignaturaController {
     public void deleteAsignatura(@PathVariable Long id) {
         asignaturaService.deleteAsignatura(id);
     }
+
+    @GetMapping("/carrera/{codCarr}")
+    @ResponseBody
+    public List<Asignatura> getAsignaturasByCodCarr(@PathVariable int codCarr) {
+        return asignaturaService.getAsignaturasByCodCarr(codCarr);
+    }
 }
