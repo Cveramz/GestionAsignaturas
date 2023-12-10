@@ -33,4 +33,12 @@ public class PrerrequisitoService {
     public void deletePrerrequisito(Long id) {
         prerrequisitoRepository.deleteById(id);
     }
+
+    public List<Prerrequisito> getPrerrequisitosByCodPrerrequisito(int codPrerrequisito) {
+        return prerrequisitoRepository.findByCodPrerrequisito(codPrerrequisito);
+    }
+
+    public List<Prerrequisito> getPrerrequisitosByCodAsignatura(int codAsignatura) {
+        return prerrequisitoRepository.findByCodAsignatura(codAsignatura);
+    }
 }

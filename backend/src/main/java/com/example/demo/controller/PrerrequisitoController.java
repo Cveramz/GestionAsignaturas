@@ -38,4 +38,16 @@ public class PrerrequisitoController {
     public void deletePrerrequisito(@PathVariable Long id) {
         prerrequisitoService.deletePrerrequisito(id);
     }
+
+    @GetMapping("/abre/{codPrerrequisito}")
+    @ResponseBody
+    public List<Prerrequisito> getPrerrequisitosByCodPrerrequisito(@PathVariable int codPrerrequisito) {
+        return prerrequisitoService.getPrerrequisitosByCodPrerrequisito(codPrerrequisito);
+    }
+
+    @GetMapping("/para/{codAsignatura}")
+    @ResponseBody
+    public List<Prerrequisito> getPrerrequisitosByCodAsignatura(@PathVariable int codAsignatura) {
+        return prerrequisitoService.getPrerrequisitosByCodAsignatura(codAsignatura);
+    }
 }
