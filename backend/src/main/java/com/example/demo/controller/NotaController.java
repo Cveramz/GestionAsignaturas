@@ -38,4 +38,9 @@ public class NotaController {
     public void deleteNota(@PathVariable Long id) {
         notaService.deleteNota(id);
     }
+
+    @GetMapping("/estudiante/{rutEstudiante}")
+    public List<Nota> getNotasByRutEstudiante(@PathVariable String rutEstudiante) {
+        return notaService.getNotasByRutEstudiante(rutEstudiante);
+    }
 }

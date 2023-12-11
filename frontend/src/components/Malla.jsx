@@ -287,7 +287,7 @@ const buttonStylesYellow = {
   backgroundColor: '#F8CA00',
   color: 'white',
   '&:hover': {
-    backgroundColor: '#F8CA00', // Color al pasar el mouse
+    backgroundColor: '#F8CA00',
   },
 };
 
@@ -296,7 +296,7 @@ const buttonStylesGreen = {
   backgroundColor: '#9bc99e',
   color: 'white',
   '&:hover': {
-    backgroundColor: '#9bc99e', // Color al pasar el mouse
+    backgroundColor: '#9bc99e',
   },
 };
 
@@ -305,7 +305,7 @@ const buttonStylesRed = {
   backgroundColor: 'red',
   color: 'white',
   '&:hover': {
-    backgroundColor: 'red', // Color al pasar el mouse
+    backgroundColor: 'red',
   },
 };
 
@@ -314,7 +314,7 @@ const buttonStylesBlue = {
   backgroundColor: 'blue',
   color: 'white',
   '&:hover': {
-    backgroundColor: 'blue', // Color al pasar el mouse
+    backgroundColor: 'blue',
   },
 };
 
@@ -323,7 +323,7 @@ const buttonStylesGoogle = {
   backgroundColor: '#4285F4',
   color: 'white',
   '&:hover': {
-    backgroundColor: '#4285F4', // Color al pasar el mouse
+    backgroundColor: '#4285F4',
   },
 };
 

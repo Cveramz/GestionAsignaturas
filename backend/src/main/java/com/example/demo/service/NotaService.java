@@ -33,4 +33,8 @@ public class NotaService {
     public void deleteNota(Long id) {
         notaRepository.deleteById(id);
     }
+
+    public List<Nota> getNotasByRutEstudiante(String rutEstudiante) {
+        return notaRepository.findByRutEstudiante(rutEstudiante);
+    }
 }

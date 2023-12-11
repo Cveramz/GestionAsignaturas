@@ -18,6 +18,7 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import Malla from './Malla';
+import VerNotas from './VerNotas';
 
 function GestionarEstudiantes() {
   const [open, setOpen] = React.useState(false);
@@ -27,6 +28,8 @@ function GestionarEstudiantes() {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [carreraName, setCarreraName] = useState(null);
   const [openMallaModal, setOpenMallaModal] = useState(false);
+  const [openNotasModal, setOpenNotasModal] = useState(false);
+  const [selectedStudentForNotas, setSelectedStudentForNotas] = useState(null);
 
   const loadStudents = async () => {
     try {
@@ -71,6 +74,15 @@ function GestionarEstudiantes() {
 
   const handleCloseMallaModal = () => {
     setOpenMallaModal(false);
+  };
+
+  const handleOpenNotasModal = () => {
+    setOpenNotasModal(true);
+    setSelectedStudentForNotas(selectedStudent);
+  };
+
+  const handleCloseNotasModal = () => {
+    setOpenNotasModal(false);
   };
 
   return (
@@ -158,7 +170,7 @@ function GestionarEstudiantes() {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={handleOpenNotasModal}>
                   Ver Notas
                 </Button>
               </Grid>
@@ -190,6 +202,30 @@ function GestionarEstudiantes() {
           </DialogContent>
           <DialogActions>
             {/* Acciones adicionales del modal si es necesario */}
+          </DialogActions>
+        </Dialog>
+
+        {/* Modal para "Ver Notas" */}
+        <Dialog open={openNotasModal} onClose={handleCloseNotasModal} fullWidth maxWidth="xl">
+          <DialogTitle>
+            Visualización de Notas
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={handleCloseNotasModal}
+              aria-label="close"
+              sx={{ position: 'absolute', right: 8, top: 8 }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <hr />
+          </DialogTitle>
+          <DialogContent>
+            {/* Contenido del modal de notas */}
+            {selectedStudentForNotas && <VerNotas rut={selectedStudentForNotas.rut} />}
+          </DialogContent>
+          <DialogActions>
+            {/* Acciones adicionales del modal de notas si es necesario */}
           </DialogActions>
         </Dialog>
       </Container>

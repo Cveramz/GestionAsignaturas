@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 public class Nota {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_nota")
     private Long idNota;
 
