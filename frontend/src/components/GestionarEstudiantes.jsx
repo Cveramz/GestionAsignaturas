@@ -19,6 +19,7 @@ import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import Malla from './Malla';
 import VerNotas from './VerNotas';
+import HorarioEstudiante from './HorarioEstudiante';
 
 function GestionarEstudiantes() {
   const [open, setOpen] = React.useState(false);
@@ -29,6 +30,7 @@ function GestionarEstudiantes() {
   const [carreraName, setCarreraName] = useState(null);
   const [openMallaModal, setOpenMallaModal] = useState(false);
   const [openNotasModal, setOpenNotasModal] = useState(false);
+  const [openHorarioModal, setOpenHorarioModal] = useState(false); // Nuevo estado para el modal de horario
   const [selectedStudentForNotas, setSelectedStudentForNotas] = useState(null);
 
   const loadStudents = async () => {
@@ -83,6 +85,14 @@ function GestionarEstudiantes() {
 
   const handleCloseNotasModal = () => {
     setOpenNotasModal(false);
+  };
+
+  const handleOpenHorarioModal = () => {
+    setOpenHorarioModal(true);
+  };
+
+  const handleCloseHorarioModal = () => {
+    setOpenHorarioModal(false);
   };
 
   return (
@@ -165,7 +175,7 @@ function GestionarEstudiantes() {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={handleOpenHorarioModal}>
                   Ver Horario
                 </Button>
               </Grid>
@@ -196,8 +206,33 @@ function GestionarEstudiantes() {
           <DialogContent>
             {/* Contenido del modal */}
             {selectedStudent && (
-              // Aquí agregamos el componente Malla y pasamos los propios rut y código de carrera
               <Malla rut={selectedStudent.rut} codigoCarrera={selectedStudent.codCarr} />
+            )}
+          </DialogContent>
+          <DialogActions>
+            {/* Acciones adicionales del modal si es necesario */}
+          </DialogActions>
+        </Dialog>
+
+        {/* Modal para "Ver Horario" */}
+        <Dialog open={openHorarioModal} onClose={handleCloseHorarioModal} fullWidth maxWidth="xl">
+          <DialogTitle>
+            Visualización de Horario
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={handleCloseHorarioModal}
+              aria-label="close"
+              sx={{ position: 'absolute', right: 8, top: 8 }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <hr />
+          </DialogTitle>
+          <DialogContent>
+            {/* Contenido del modal */}
+            {selectedStudent && (
+              <HorarioEstudiante rutEstudiante={selectedStudent.rut} />
             )}
           </DialogContent>
           <DialogActions>
