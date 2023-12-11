@@ -1,0 +1,36 @@
+
+    {
+  "codAsignatura": "201",
+  "rutEstudiante": "E-14321",
+  "estado": "cursando"
+    }
+
+    {
+  "codAsignatura": "202",
+  "rutEstudiante": "E-14321",
+  "estado": "cursando"
+    }
+
+    {
+  "codAsignatura": "203",
+  "rutEstudiante": "E-14321",
+  "estado": "cursando"
+    }
+
+    {
+  "codAsignatura": "203",
+  "rutEstudiante": "E-14321",
+  "estado": "cursando"
+    }
+
+    {
+  "codAsignatura": "204",
+  "rutEstudiante": "E-14321",
+  "estado": "cursando"
+    }
+
+    {
+  "codAsignatura": "205",
+  "rutEstudiante": "E-14321",
+  "estado": "cursando"
+    }

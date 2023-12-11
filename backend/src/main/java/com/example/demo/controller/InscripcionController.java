@@ -38,4 +38,14 @@ public class InscripcionController {
     public void deleteInscripcion(@PathVariable Long id) {
         inscripcionService.deleteInscripcion(id);
     }
+
+    @GetMapping("/rut/{rutEstudiante}")
+    public List<Inscripcion> getInscripcionesByRutEstudiante(@PathVariable String rutEstudiante) {
+        return inscripcionService.getInscripcionesByRutEstudiante(rutEstudiante);
+    }
+
+    @PostMapping("/estado")
+    public Inscripcion saveOrUpdateEstado(@RequestBody Inscripcion inscripcion) {
+        return inscripcionService.saveOrUpdateEstado(inscripcion);
+    }
 }

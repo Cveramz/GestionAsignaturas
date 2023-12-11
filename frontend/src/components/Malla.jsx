@@ -12,28 +12,33 @@ import {
   Backdrop,
   Fade,
   Button,
+  Snackbar,
 } from '@mui/material';
 
 const Malla = ({ rut, codigoCarrera }) => {
   const [asignaturas, setAsignaturas] = useState([]);
+  const [inscripciones, setInscripciones] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedAsignatura, setSelectedAsignatura] = useState(null);
   const [prerrequisitos, setPrerrequisitos] = useState({ abre: [], para: [] });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const fetchData = async () => {
+    try {
+      const asignaturasResponse = await axios.get(`http://localhost:8080/asignaturas/carrera/${codigoCarrera}`);
+      const inscripcionesResponse = await axios.get(`http://localhost:8080/inscripciones/rut/${rut}`);
+
+      setAsignaturas(asignaturasResponse.data);
+      setInscripciones(inscripcionesResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/asignaturas/carrera/${codigoCarrera}`
-        );
-        setAsignaturas(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchData();
-  }, [codigoCarrera]);
+  }, [codigoCarrera, rut]);
 
   const maxNivel = asignaturas.reduce((max, asignatura) => Math.max(max, asignatura.nivel), 0);
 
@@ -68,6 +73,43 @@ const Malla = ({ rut, codigoCarrera }) => {
     setModalOpen(false);
   };
 
+  const handleSetEstado = async (estado) => {
+    try {
+      await axios.post('http://localhost:8080/inscripciones/estado', {
+        rutEstudiante: rut,
+        codAsignatura: selectedAsignatura.codAsig,
+        estado: estado,
+      });
+
+      fetchData();
+      setSnackbarMessage(`Se actualizó el estado a "${estado}" correctamente.`);
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error('Error setting estado:', error);
+    }
+  };
+
+  const handleEliminarEstado = async () => {
+    try {
+      const inscripcion = inscripciones.find(
+        (inscripcion) => inscripcion.codAsignatura === String(selectedAsignatura.codAsig)
+      );
+
+      if (inscripcion) {
+        await axios.delete(`http://localhost:8080/inscripciones/${inscripcion.idInscripcion}`);
+        fetchData();
+        setSnackbarMessage('Se eliminó el estado correctamente.');
+        setSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error('Error deleting estado:', error);
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -84,15 +126,47 @@ const Malla = ({ rut, codigoCarrera }) => {
           <TableBody>
             {Array.from({ length: Math.max(...matrizAsignaturas.map((nivel) => nivel.length)) }, (_, rowIndex) => (
               <TableRow key={rowIndex}>
-                {matrizAsignaturas.map((nivel, columnIndex) => (
-                  <TableCell
-                    key={columnIndex}
-                    sx={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center', cursor: 'pointer' }}
-                    onClick={() => handleCellClick(nivel[rowIndex])}
-                  >
-                    {nivel[rowIndex] ? nivel[rowIndex].nomAsig : ''}
-                  </TableCell>
-                ))}
+                {matrizAsignaturas.map((nivel, columnIndex) => {
+                  const currentAsignatura = nivel[rowIndex];
+
+                  if (currentAsignatura) {
+                    const inscripcion = inscripciones.find(
+                      (inscripcion) => inscripcion.codAsignatura === String(currentAsignatura.codAsig)
+                    );
+
+                    const isCursando = inscripcion && inscripcion.estado === 'cursando';
+
+                    const styles = {
+                      border: '1px solid #ddd',
+                      padding: '8px',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      backgroundColor: isCursando
+                        ? '#F8CA00'
+                        : inscripcion && inscripcion.estado === 'aprobado'
+                        ? '#9bc99e'
+                        : inscripcion && inscripcion.estado === 'reprobado'
+                        ? 'red'
+                        : 'white',
+                    };
+
+                    return (
+                      <TableCell
+                        key={columnIndex}
+                        sx={styles}
+                        onClick={() => handleCellClick(currentAsignatura)}
+                      >
+                        {currentAsignatura.nomAsig}
+                      </TableCell>
+                    );
+                  } else {
+                    return (
+                      <TableCell key={columnIndex} sx={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>
+                        {/* Puedes dejar esto vacío o mostrar algún mensaje indicando que no hay asignatura */}
+                      </TableCell>
+                    );
+                  }
+                })}
               </TableRow>
             ))}
           </TableBody>
@@ -110,7 +184,16 @@ const Malla = ({ rut, codigoCarrera }) => {
         }}
       >
         <Fade in={modalOpen}>
-          <Paper sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', p: 2, width: '300px' }}>
+          <Paper
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              p: 2,
+              width: '300px',
+            }}
+          >
             {/* Contenido del modal */}
             {selectedAsignatura && (
               <>
@@ -126,7 +209,9 @@ const Malla = ({ rut, codigoCarrera }) => {
 
                         return (
                           <li key={prerrequisito.idPrerrequisito}>
-                            {prerrequisitoAsignatura ? `${prerrequisitoAsignatura.nomAsig} (Nivel: ${prerrequisitoAsignatura.nivel})` : ''}
+                            {prerrequisitoAsignatura
+                              ? `${prerrequisitoAsignatura.nomAsig} (Nivel: ${prerrequisitoAsignatura.nivel})`
+                              : ''}
                           </li>
                         );
                       })}
@@ -144,7 +229,9 @@ const Malla = ({ rut, codigoCarrera }) => {
 
                         return (
                           <li key={prerrequisito.idPrerrequisito}>
-                            {prerrequisitoAsignatura ? `${prerrequisitoAsignatura.nomAsig} (Nivel: ${prerrequisitoAsignatura.nivel})` : ''}
+                            {prerrequisitoAsignatura
+                              ? `${prerrequisitoAsignatura.nomAsig} (Nivel: ${prerrequisitoAsignatura.nivel})`
+                              : ''}
                           </li>
                         );
                       })}
@@ -154,14 +241,90 @@ const Malla = ({ rut, codigoCarrera }) => {
                 {prerrequisitos.para.length === 0 && prerrequisitos.abre.length === 0 && (
                   <p>No hay ramos que deba aprobar ni ramos que abra.</p>
                 )}
-                <Button onClick={handleCloseModal}>Cerrar</Button>
+                <Button onClick={() => handleSetEstado('cursando')} sx={buttonStylesYellow}>
+                  Cursando
+                </Button>
+                <Button onClick={() => handleSetEstado('aprobado')} sx={buttonStylesGreen}>
+                  Aprobado
+                </Button>
+                <Button onClick={() => handleSetEstado('reprobado')} sx={buttonStylesRed}>
+                  Reprobado
+                </Button>
+                {inscripciones.some(
+                  (inscripcion) => inscripcion.codAsignatura === String(selectedAsignatura.codAsig)
+                ) && (
+                  <Button onClick={handleEliminarEstado} sx={buttonStylesBlue}>
+                    Eliminar Estado
+                  </Button>
+                )}
+                <Button onClick={handleCloseModal} sx={buttonStylesGoogle}>
+                  Cerrar
+                </Button>
               </>
             )}
           </Paper>
         </Fade>
       </Modal>
+
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </div>
   );
+};
+
+const buttonStyles = {
+  width: '100%',
+  mb: 1, // Añade un margen en la parte inferior para separar los botones
+};
+
+const buttonStylesYellow = {
+  ...buttonStyles,
+  backgroundColor: '#F8CA00',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: '#F8CA00', // Color al pasar el mouse
+  },
+};
+
+const buttonStylesGreen = {
+  ...buttonStyles,
+  backgroundColor: '#9bc99e',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: '#9bc99e', // Color al pasar el mouse
+  },
+};
+
+const buttonStylesRed = {
+  ...buttonStyles,
+  backgroundColor: 'red',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: 'red', // Color al pasar el mouse
+  },
+};
+
+const buttonStylesBlue = {
+  ...buttonStyles,
+  backgroundColor: 'blue',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: 'blue', // Color al pasar el mouse
+  },
+};
+
+const buttonStylesGoogle = {
+  ...buttonStyles,
+  backgroundColor: '#4285F4',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: '#4285F4', // Color al pasar el mouse
+  },
 };
 
 export default Malla;

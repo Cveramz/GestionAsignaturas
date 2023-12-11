@@ -76,8 +76,7 @@ function AdministrarHorario() {
                 await axios.post('http://localhost:8080/horarios', data);
             }
     
-            console.log('Horarios existentes eliminados y nuevos datos guardados enviados al backend:', bloquesSeleccionados);
-            mostrarSnackbar('Horarios existentes eliminados y nuevos datos guardados enviados al backend correctamente');
+            mostrarSnackbar('Horario actualizado exitosamente');
             
             setTimeout(() => {
                 window.location.href = '/GestionarAsignaturas';
@@ -85,7 +84,7 @@ function AdministrarHorario() {
 
         } catch (error) {
             console.error('Error al enviar datos al backend:', error);
-            mostrarSnackbar('Hubo un error al enviar los datos al backend');
+            mostrarSnackbar('Hubo un error al actualizar el horario.');
         }
     };
     

@@ -33,4 +33,26 @@ public class InscripcionService {
     public void deleteInscripcion(Long id) {
         inscripcionRepository.deleteById(id);
     }
+
+    public List<Inscripcion> getInscripcionesByRutEstudiante(String rutEstudiante) {
+        return inscripcionRepository.findByRutEstudiante(rutEstudiante);
+    }
+
+    public Inscripcion saveOrUpdateEstado(Inscripcion inscripcion) {
+
+        String rutEstudiante = inscripcion.getRutEstudiante();
+        String codAsignatura = inscripcion.getCodAsignatura();
+        Optional<Inscripcion> existingInscripcion = inscripcionRepository.findByRutEstudianteAndCodAsignatura(rutEstudiante, codAsignatura);
+
+        if (existingInscripcion.isPresent()) {
+            // Ya existe una inscripción, actualiza el estado
+            Inscripcion existing = existingInscripcion.get();
+            existing.setEstado(inscripcion.getEstado());
+            return inscripcionRepository.save(existing);
+        } else {
+            // No existe una inscripción, crea una nueva
+            return inscripcionRepository.save(inscripcion);
+        }
+    }
+
 }
