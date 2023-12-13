@@ -55,4 +55,8 @@ public class InscripcionService {
         }
     }
 
+    public int getCountByCodAsignatura(String codAsignatura) {
+        return inscripcionRepository.countByCodAsignatura(codAsignatura);
+    }
+
 }

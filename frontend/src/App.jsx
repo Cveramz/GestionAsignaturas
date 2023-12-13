@@ -6,6 +6,7 @@ import GestionarAsignaturas from './components/GestionarAsignaturas';
 import GestionarEstudiantes from './components/GestionarEstudiantes';
 import AdminsitrarHorario from './components/AdministrarHorario';
 import HorarioAsignatura from './components/HorarioAsignaturas';
+import InscribirAsignaturas from './components/InscribirAsignaturas';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/GestionarEstudiantes" element={<GestionarEstudiantes />} />
             <Route path="/AdministrarHorario/:id" element={<AdminsitrarHorario />} />
             <Route path="/HorarioAsignatura/:id" element={<HorarioAsignatura />} />
+            <Route path="/InscribirAsignaturas/:id" element={<InscribirAsignaturas />} />
             
           </Routes>
         </div>

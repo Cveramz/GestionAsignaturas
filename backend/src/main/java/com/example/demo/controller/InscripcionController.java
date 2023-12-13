@@ -48,4 +48,10 @@ public class InscripcionController {
     public Inscripcion saveOrUpdateEstado(@RequestBody Inscripcion inscripcion) {
         return inscripcionService.saveOrUpdateEstado(inscripcion);
     }
+
+    @GetMapping("/count/{codAsignatura}")
+    public int getCountByCodAsignatura(@PathVariable String codAsignatura) {
+        return inscripcionService.getCountByCodAsignatura(codAsignatura);
+    }
+
 }

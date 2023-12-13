@@ -27,12 +27,27 @@ const GestionarAsignaturas = () => {
   const [selectedAsignatura, setSelectedAsignatura] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [filteredAsignaturas, setFilteredAsignaturas] = useState([]);
+  const [alumnosInscritos, setAlumnosInscritos] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/asignaturas');
-        setAsignaturas(response.data);
+        const responseAsignaturas = await axios.get('http://localhost:8080/asignaturas');
+        const asignaturasData = responseAsignaturas.data;
+
+        const inscritosPromises = asignaturasData.map(async (asignatura) => {
+          const responseInscritos = await axios.get(`http://localhost:8080/inscripciones/count/${asignatura.codAsig}`);
+          return { codAsig: asignatura.codAsig, inscritos: responseInscritos.data };
+        });
+
+        const inscritosData = await Promise.all(inscritosPromises);
+        const inscritosMap = inscritosData.reduce((acc, curr) => {
+          acc[curr.codAsig] = curr.inscritos;
+          return acc;
+        }, {});
+
+        setAlumnosInscritos(inscritosMap);
+        setAsignaturas(asignaturasData);
         setLoadedSuccessfully(true);
       } catch (error) {
         console.error('Error al obtener asignaturas', error);
@@ -140,26 +155,29 @@ const GestionarAsignaturas = () => {
                 <TableCell>Código</TableCell>
                 <TableCell>Plan</TableCell>
                 <TableCell>Nivel</TableCell>
-                <TableCell>Nom_Asig</TableCell>
+                <TableCell>Nombre</TableCell>
                 <TableCell>Limite Estudiantes</TableCell>
+                <TableCell>Inscritos</TableCell>
                 <TableCell>Número Carrera</TableCell>
+                
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredAsignaturas.map((asignatura) => (
-                <TableRow
-                  key={asignatura.codAsig}
-                  onClick={() => handleAsignaturaClick(asignatura)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <TableCell>{asignatura.codAsig}</TableCell>
-                  <TableCell>{asignatura.codPlan}</TableCell>
-                  <TableCell>{asignatura.nivel}</TableCell>
-                  <TableCell>{asignatura.nomAsig}</TableCell>
-                  <TableCell>{asignatura.limiteEstudiantes}</TableCell>
-                  <TableCell>{asignatura.codCarr}</TableCell>
-                </TableRow>
-              ))}
+            {filteredAsignaturas.map((asignatura) => (
+  <TableRow
+    key={asignatura.codAsig}
+    onClick={() => handleAsignaturaClick(asignatura)}
+    style={{ cursor: 'pointer' }}
+  >
+    <TableCell>{asignatura.codAsig}</TableCell>
+    <TableCell>{asignatura.codPlan}</TableCell>
+    <TableCell>{asignatura.nivel}</TableCell>
+    <TableCell>{asignatura.nomAsig}</TableCell>
+    <TableCell>{asignatura.limiteEstudiantes}</TableCell>
+    <TableCell>{alumnosInscritos[asignatura.codAsig]}</TableCell>
+    <TableCell>{asignatura.codCarr}</TableCell>
+  </TableRow>
+))}
             </TableBody>
           </Table>
         </TableContainer>

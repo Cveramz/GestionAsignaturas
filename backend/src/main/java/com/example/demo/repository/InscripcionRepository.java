@@ -13,5 +13,8 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> 
 
     Optional<Inscripcion> findByRutEstudianteAndCodAsignatura(String rutEstudiante, String codAsignatura);
 
+    int countByCodAsignatura(String codAsignatura);
+
+
 
 }

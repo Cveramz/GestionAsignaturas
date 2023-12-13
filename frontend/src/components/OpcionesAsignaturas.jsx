@@ -29,75 +29,74 @@ const OpcionesAsignaturas = ({ asignatura }) => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
-            <Card style={{ width: '80%' }}>
-                <CardContent>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-                        <Button
-                            variant="outlined"
-                            onClick={handleCerrarClick}
-                            style={{ color: 'red', borderColor: 'red' }}
-                        >
-                            Cerrar
-                        </Button>
-
-                    </div>
-                    <Typography variant="h4" gutterBottom>
-                        Detalles de la Asignatura
-                    </Typography>
-                    {detalleAsignatura && (
-                        <div>
-                            <table style={{ margin: 'auto' }}>
-                                <tbody>
-                                    <tr>
-                                        <td>ID de la Asignatura:</td>
-                                        <td>{detalleAsignatura.codAsig}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Código de Plan:</td>
-                                        <td>{detalleAsignatura.codPlan}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nivel:</td>
-                                        <td>{detalleAsignatura.nivel}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre de la Asignatura:</td>
-                                        <td>{detalleAsignatura.nomAsig}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Límite de Estudiantes:</td>
-                                        <td>{detalleAsignatura.limiteEstudiantes}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Código de Carrera:</td>
-                                        <td>{detalleAsignatura.codCarr}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div style={{ marginTop: '20px' }}>
-                                <Button
-                                    variant="contained"
-                                    style={{ backgroundColor: '#00A499', color: 'white', marginRight: '10px' }}
-                                    onClick={() => navigate(`/HorarioAsignatura/${detalleAsignatura.codAsig}`)}
-                                >
-                                    Ver Horarios
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    style={{ backgroundColor: '#EA7600', color: 'white', marginLeft: '10px' }}
-                                    onClick={() => navigate(`/AdministrarHorario/${detalleAsignatura.codAsig}`)}
-                                    
-                                >
-                                    Agregar Nuevo Horario
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
+          <Card style={{ width: '80%' }}>
+            <CardContent>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+                <Button
+                  variant="outlined"
+                  onClick={handleCerrarClick}
+                  style={{ color: 'red', borderColor: 'red' }}
+                >
+                  Cerrar
+                </Button>
+              </div>
+              <Typography variant="h4" gutterBottom>
+                Detalles de la Asignatura
+              </Typography>
+              {detalleAsignatura && (
+                <div>
+                  <table style={{ margin: 'auto', whiteSpace: 'nowrap' }}>
+                    <tbody>
+                      <tr>
+                        <td>ID de la Asignatura:</td>
+                        <td>{detalleAsignatura.codAsig}</td>
+                      </tr>
+                      <tr>
+                        <td>Código de Plan:</td>
+                        <td>{detalleAsignatura.codPlan}</td>
+                      </tr>
+                      <tr>
+                        <td>Nivel:</td>
+                        <td>{detalleAsignatura.nivel}</td>
+                      </tr>
+                      <tr>
+                        <td>Nombre de la Asignatura:</td>
+                        <td>{detalleAsignatura.nomAsig}</td>
+                      </tr>
+                      <tr>
+                        <td>Límite de Estudiantes:</td>
+                        <td>{detalleAsignatura.limiteEstudiantes}</td>
+                      </tr>
+                      <tr>
+                        <td>Código de Carrera:</td>
+                        <td>{detalleAsignatura.codCarr}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+      
+                  <div style={{ marginTop: '20px' }}>
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: '#00A499', color: 'white', marginRight: '10px' }}
+                      onClick={() => navigate(`/HorarioAsignatura/${detalleAsignatura.codAsig}`)}
+                    >
+                      Ver Horarios
+                    </Button>
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: '#EA7600', color: 'white', marginLeft: '10px' }}
+                      onClick={() => navigate(`/AdministrarHorario/${detalleAsignatura.codAsig}`)}
+                    >
+                      Agregar Nuevo Horario
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
-    );
+      );
+      
 };
 
 export default OpcionesAsignaturas;
