@@ -113,6 +113,7 @@ function GestionarEstudiantes() {
       <br />
       <Typography variant="h4">Gestionar Estudiantes</Typography>
       <Divider />
+      <br />
       <div style={{ maxWidth: '800px', margin: 'auto' }}>
         {error && <Alert severity="error">{error}</Alert>}
         {!error && (
@@ -123,6 +124,7 @@ function GestionarEstudiantes() {
           </Alert>
         )}
       </div>
+      <br />
       <div className='SeleccionEstudiante' style={{ maxWidth: '300px' }}>
   <Autocomplete
     id="asynchronous-demo"

@@ -11,7 +11,11 @@ import {
   Backdrop,
   CircularProgress,
   Typography,
+  Autocomplete,
+  TextField,
+  IconButton,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import OpcionesAsignaturas from './OpcionesAsignaturas';
 import axios from 'axios';
 
@@ -21,6 +25,8 @@ const GestionarAsignaturas = () => {
   const [error, setError] = useState(null);
   const [loadedSuccessfully, setLoadedSuccessfully] = useState(false);
   const [selectedAsignatura, setSelectedAsignatura] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
+  const [filteredAsignaturas, setFilteredAsignaturas] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +38,6 @@ const GestionarAsignaturas = () => {
         console.error('Error al obtener asignaturas', error);
         setError('Error al obtener asignaturas. Por favor, inténtalo de nuevo.');
       } finally {
-        
         setTimeout(() => {
           setLoading(false);
         }, 200);
@@ -42,9 +47,23 @@ const GestionarAsignaturas = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const filtered = asignaturas.filter(
+      asignatura =>
+        asignatura.codAsig.toString().includes(searchValue) ||
+        asignatura.nomAsig.includes(searchValue)
+    );
+    setFilteredAsignaturas(filtered);
+  }, [searchValue, asignaturas]);
+
   const handleAsignaturaClick = (asignatura) => {
     setError(null);
     setSelectedAsignatura(asignatura);
+  };
+
+  const handleCloseAlert = () => {
+    setError(null);
+    setLoadedSuccessfully(false);
   };
 
   if (selectedAsignatura) {
@@ -64,7 +83,20 @@ const GestionarAsignaturas = () => {
 
         {error && (
           <div style={{ textAlign: 'center' }}>
-            <Alert variant="filled" severity="error">
+            <Alert
+              variant="filled"
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={handleCloseAlert}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
               {error}
             </Alert>
           </div>
@@ -72,26 +104,49 @@ const GestionarAsignaturas = () => {
 
         {loadedSuccessfully && !error && (
           <div style={{ textAlign: 'center' }}>
-            <Alert variant="filled" severity="success">
+            <Alert
+              variant="filled"
+              severity="success"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={handleCloseAlert}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
               Se ha cargado correctamente las asignaturas
             </Alert>
           </div>
         )}
+        <br />
+
+
 
         <TableContainer component={Paper}>
+          <Autocomplete
+            options={filteredAsignaturas}
+            getOptionLabel={(asignatura) => `${asignatura.codAsig} - ${asignatura.nomAsig}`}
+            value={asignaturas.find((asignatura) => asignatura.codAsig === searchValue) || null}
+            onChange={(event, newValue) => setSearchValue(newValue?.codAsig || '')}
+            renderInput={(params) => <TextField {...params} label="Buscar Asignatura" />}
+          />
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Cod_Asig</TableCell>
-                <TableCell>Cod_Plan</TableCell>
+                <TableCell>Código</TableCell>
+                <TableCell>Plan</TableCell>
                 <TableCell>Nivel</TableCell>
                 <TableCell>Nom_Asig</TableCell>
                 <TableCell>Limite Estudiantes</TableCell>
-                <TableCell>Cod_Carr</TableCell>
+                <TableCell>Número Carrera</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {asignaturas.map((asignatura) => (
+              {filteredAsignaturas.map((asignatura) => (
                 <TableRow
                   key={asignatura.codAsig}
                   onClick={() => handleAsignaturaClick(asignatura)}
