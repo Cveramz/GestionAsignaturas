@@ -32,6 +32,8 @@ function GestionarEstudiantes() {
   const [openNotasModal, setOpenNotasModal] = useState(false);
   const [openHorarioModal, setOpenHorarioModal] = useState(false); // Nuevo estado para el modal de horario
   const [selectedStudentForNotas, setSelectedStudentForNotas] = useState(null);
+  const [searchMode, setSearchMode] = useState('rut');
+
 
   const loadStudents = async () => {
     try {
@@ -95,6 +97,17 @@ function GestionarEstudiantes() {
     setOpenHorarioModal(false);
   };
 
+  const filterStudents = (option, inputValue) => {
+    if (searchMode === 'rut') {
+      return option.rut.toLowerCase().includes(inputValue.toLowerCase());
+    } else if (searchMode === 'name') {
+      const fullName = `${option.nombres} ${option.apellidos}`;
+      return fullName.toLowerCase().includes(inputValue.toLowerCase());
+    }
+    return false;
+  };
+
+
   return (
     <div>
       <br />
@@ -111,31 +124,35 @@ function GestionarEstudiantes() {
         )}
       </div>
       <div className='SeleccionEstudiante' style={{ maxWidth: '300px' }}>
-        <Autocomplete
-          id="asynchronous-demo"
-          sx={{ width: 300 }}
-          open={open}
-          onOpen={() => {
-            setOpen(true);
-          }}
-          onClose={() => {
-            setOpen(false);
-          }}
-          isOptionEqualToValue={(option, value) => option.rut === value.rut}
-          getOptionLabel={(option) => option.rut}
-          options={options}
-          loading={loading}
-          onChange={handleStudentChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Seleccionar Estudiante"
-              size="small"
-              fullWidth
-            />
-          )}
-        />
-      </div>
+  <Autocomplete
+    id="asynchronous-demo"
+    sx={{ width: 300 }}
+    open={open}
+    onOpen={() => setOpen(true)}
+    onClose={() => setOpen(false)}
+    isOptionEqualToValue={(option, value) => option.rut === value.rut}
+    getOptionLabel={(option) => option.rut}
+    options={options}
+    loading={loading}
+    onChange={handleStudentChange}
+    filterOptions={(options, { inputValue }) =>
+      options.filter((option) =>
+        option.rut.toLowerCase().includes(inputValue.toLowerCase()) ||
+        `${option.nombres} ${option.apellidos}`.toLowerCase().includes(inputValue.toLowerCase())
+      )
+    }
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Seleccionar Estudiante"
+        size="small"
+        fullWidth
+      />
+    )}
+  />
+</div>
+
+
       <Container maxWidth="lg" sx={{ marginTop: '2rem' }}>
         {selectedStudent && (
           <Paper elevation={3} sx={{ padding: '2rem', textAlign: 'left' }}>
