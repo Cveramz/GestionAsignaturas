@@ -51,7 +51,7 @@ const GestionarAsignaturas = () => {
         setLoadedSuccessfully(true);
       } catch (error) {
         console.error('Error al obtener asignaturas', error);
-        setError('Error al obtener asignaturas. Por favor, inténtalo de nuevo.');
+        setError('Error al obtener asignaturas. Por favor, vuelva a intentarlo más tarde.');
       } finally {
         setTimeout(() => {
           setLoading(false);

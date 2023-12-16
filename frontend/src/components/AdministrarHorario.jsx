@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Grid, Paper, Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Button, Snackbar } from '@mui/material';
+import { Grid, Paper, Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Button, Snackbar, Alert } from '@mui/material';
 
 function AdministrarHorario() {
     const { id } = useParams();
@@ -106,6 +106,7 @@ function AdministrarHorario() {
                     </Button>
                 </Grid>
             </Grid>
+            <Alert severity="info">Seleccione 3 bloques de horario para la asignatura.</Alert>
             <Snackbar
                 open={mensajeSnackbar !== ''}
                 autoHideDuration={3000}
